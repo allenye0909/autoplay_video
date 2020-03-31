@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>微信H5视频行内autoplay</title>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- For iOS -->
+        <video src="https://static.shikehuyu.com/vincent/wx-video-demo/movie.mp4" controls playsinline webkit-playsinline
+            autoplay loop>
+        </video>
+    </div>
+
+    <script>
+        var player = document.querySelector('video')
+        window.onload = function () {
+            document.addEventListener('WeixinJSBridgeReady', () => {
+                player.play()
+            })
+        }
+    </script>
+</body>
+
+</html>

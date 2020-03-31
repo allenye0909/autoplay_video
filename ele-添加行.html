@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css" />
+</head>
+<style>
+    .el-input {
+        width: 40% !important;
+    }
+    
+    .demo-dynamic,
+    .btns {
+        display: inline-block;
+    }
+    
+    .btns,
+    .chaName {
+        vertical-align: 64px;
+    }
+
+    [v-cloak] {
+      display: none
+    }
+</style>
+
+<style>
+    .a,.b {
+        height: 100px;
+        width: 100px;
+        position: fixed;
+        bottom: 0;
+    }
+
+    .a {
+        left: 0;
+        background-color: #ccc;
+    }
+
+    .b {
+        left: 90px;
+        background-color: #ddd;
+        z-index: 9;
+        display: none;
+    }
+
+    .a:hover {
+        background-color: red!important;
+    }
+
+    .a:hover + .b {
+        background-color: green!important;
+        display: block;
+    }
+
+    .b:hover {
+        background-color: pink;
+        display: block;
+    }
+
+</style>
+
+<body>
+    <div class="a">a</div>
+    <div class="b">b</div>
+
+    <div></div>
+    <div id="app" v-cloak>
+
+        <div v-for="(chapterItem, chapterIndex) in chapterList">
+            <span class="chaName">第{{chapterIndex + 1}}章:</span>
+            <el-form :model="chapterItem" :ref="`chapterItem${chapterIndex}`" label-width="100px" class="demo-dynamic">
+                <el-form-item v-for="(domain, index) in chapterItem.domains" :label="`第${index + 1}节`" :key="domain.key" :prop="'domains.' + index + '.value'" :rules="{
+            required: true, message: '节不能为空', trigger: 'blur'
+          }">
+                    <el-input v-model="domain.value"></el-input>
+                    <el-button @click.prevent="removeDomain(domain, chapterIndex)">删除</el-button>
+                </el-form-item>
+                <el-form-item>
+                    <!-- <el-button type="primary" @click="submitForm('chapterItem'+chapterIndex)">提交</el-button> -->
+                    <el-button @click="addDomain(chapterIndex)">新增节</el-button>
+                </el-form-item>
+            </el-form>
+
+            <div class="btns">
+                <el-button @click.prevent="removeChapter(chapterIndex)">删除章</el-button>
+                <el-button @click.prevent="addChapter" v-if="chapterIndex == chapterList.length-1">添加章</el-button>
+            </div>
+            <hr>
+        </div>
+    </div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: "#app",
+        data: function() {
+            return {
+                chapterList: [{
+                    domains: [{
+                        value: ""
+                    }],
+                }, {
+                    domains: [{
+                        value: ""
+                    }],
+                },]
+            };
+        },
+        methods: {
+          addChapter() {
+            this.chapterList.push({
+                    domains: [{
+                        value: ""
+                    }],
+                })
+          },
+
+            removeChapter(chapterIndex) {
+                if(this.chapterList.length <= 1) {
+                  return this.$message.error("最后一章")
+                }
+                this.chapterList.splice(chapterIndex, 1)
+            },
+
+
+            submitForm(formName) {
+              // console.log(this.$refs, formName);
+              // return;
+                this.$refs[formName].validate(valid => {
+                    if (valid) {
+                        alert("submit!");
+                    } else {
+                        console.log("error submit!!");
+                        return false;
+                    }
+                });
+            },
+            removeDomain(item, chapterIndex) {
+              if(this.chapterList[chapterIndex].domains.length <= 1) {
+                return this.$message.error("最后一节")
+              }
+                var index = this.chapterList[chapterIndex].domains.indexOf(item);
+                if (index !== -1) {
+                    this.chapterList[chapterIndex].domains.splice(index, 1);
+                }
+
+            },
+            addDomain(chapterIndex) {
+                this.chapterList[chapterIndex].domains.push({
+                    value: "",
+                    key: Date.now()
+                });
+            }
+        }
+    });
+</script>
+
+</html>

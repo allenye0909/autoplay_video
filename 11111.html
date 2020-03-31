@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+
+</head>
+
+<body>
+    <video controls="" preload="auto" autoplay loop oncanplaythrough="oncanplaythrough" webkit-playsinline="true"
+        playsinline="true"
+        muted>
+        <source
+            src="http://rn.ngrok.kunchuangtech.net/uploads/attach/2020/02/20200225/5cc463a3561a2bbe393ceefa4fc51ca2.mp4"
+            type="video/mp4" />
+        Your browser does not support the video tag.
+    </video>
+
+    <script>
+        window.onload = () => {
+
+            const video = document.querySelector("video")
+
+
+            document.addEventListener("touchstart", function () {
+                video.play();
+
+                alert("‘touchstart‘")
+            }, false);
+
+
+
+            document.addEventListener('WeixinJSBridgeReady', () => {
+                video.pause()
+                // video.play()
+
+
+                // setTimeout(() => {
+                //     video.play();
+                //     alert(video.currentTime)
+                // }, 5000);
+                // setTimeout(() => {
+                //     video.play();
+                //     alert("2222")
+                // }, 1000);
+                // function oncanplaythrough() {
+                //     video.play();
+
+                // }
+                // video.play()
+            })
+
+
+        }
+    </script>
+</body>
+
+</html>
